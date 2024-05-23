@@ -1,6 +1,6 @@
 # libhydrix
 
-**libhydrix** is a powerful, modular C++ library designed to provide various utilities and functionalities essential for building robust applications. The library is organized into several distinct modules, each focusing on a specific aspect of application development. This modular design allows developers to easily include only the components they need, ensuring a lightweight and efficient implementation.
+**libhydrix** is a powerful, modular C++ library designed to provide various utilities and functionalities essential for building a Limine OS. The library is organized into several distinct modules, each focusing on a specific aspect of OS development. This modular design allows developers to easily include only the components they need, ensuring a lightweight and efficient implementation.
 
 ## Modules
 
