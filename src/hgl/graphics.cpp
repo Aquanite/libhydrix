@@ -20,15 +20,6 @@ void Graphics::fill_screen(int color) {
         }
     }
 }
-void Graphics::zero_clear() {
-    for (int y = 0; y < framebuffer.height; y++) {
-        for (int x = 0; x < framebuffer.width; x++) {
-            //modify address to framebuffer address
-            volatile uint32_t *fb_ptr = static_cast<volatile uint32_t *>(framebuffer.address);
-            fb_ptr[y * (framebuffer.pitch / 4) + x] = 0;
-        }
-    }
-}
 void Graphics::put_string(char* str, int x, int y, int color) {
     //draw char but if space move x by 10
     for (int i = 0; i < strlen(str); i++) {

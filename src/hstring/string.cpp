@@ -122,6 +122,35 @@ char* float_to_string(float value) {
     buffer[i] = '\0';
     return buffer;
 }
+char* double_to_string(double value) {
+    static char buffer[64] = {0};
+    int int_part = (int)value;
+    double frac_part = value - (double)int_part;
+    if (frac_part < 0) frac_part = -frac_part;
+    
+    int i = int_to_string(int_part, buffer);
+    
+    buffer[i++] = '.';
+    
+    // Convert fractional part to string
+    for (int j = 0; j < 6; j++) { // Adjust precision as needed
+        frac_part *= 10;
+        int frac_int = (int)frac_part;
+        buffer[i++] = frac_int + '0';
+        frac_part -= frac_int;
+    }
+    
+    buffer[i] = '\0';
+    return buffer;
+}
+char* char_to_string(char value) {
+    static char buffer[2] = {0};
+    buffer[0] = value;
+    return buffer;
+}
+char* bool_to_string(bool value) {
+    return value ? (char*)"true" : (char*)"false";
+}
 char* to_string(int value) {
     return int_to_string(value);
 }
@@ -139,4 +168,13 @@ char* to_string(uint64_t value) {
 }
 char* to_string(float value) {
     return float_to_string(value);
+}
+char* to_string(double value) {
+    return double_to_string(value);
+}
+char* to_string(char value) {
+    return char_to_string(value);
+}
+char* to_string(bool value) {
+    return bool_to_string(value);
 }

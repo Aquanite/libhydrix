@@ -23,7 +23,8 @@ float MathF::abs(float x) {
     float MathF::clamp(float x, float min, float max) {
         return x < min ? min : x > max ? max : x;
     }
-    static int f2i_trunc(float x) {
+    int MathF::f2i_trunc(float x)
+    {
         return (int)x;
     }
     float MathF::sign(float x) {
@@ -154,12 +155,6 @@ float MathF::abs(float x) {
     }
     float MathF::fdim(float x, float y) {
         return x < y ? 0 : x - y;
-    }
-    float MathF::fmax(float x, float y) {
-        return x > y ? x : y;
-    }
-    float MathF::fmin(float x, float y) {
-        return x < y ? x : y;
     }
     float MathF::fma(float x, float y, float z) {
         return x * y + z;
