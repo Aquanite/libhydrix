@@ -2,6 +2,12 @@
 #include "stdint.h"
 #include "stddef.h"
 #include "../hmath/higherbitmath.h"
+//define VA_LIST and va_start, va_arg, va_end etc
+typedef char* va_list;
+#define va_start(ap, v) (ap = (va_list)&v + sizeof(v))
+#define va_arg(ap, t) (*(t*)(ap += sizeof(t)))
+#define va_end(ap) (ap = NULL)
+
 /// @brief String
 typedef char* string;
 /// @brief Constant string
@@ -55,3 +61,12 @@ char* to_string(char value);
 /// @param value The bool
 /// @return The string
 char* to_string(bool value);
+/// @brief Convert an integer to a string
+/// @param value The integer
+/// @param buffer The buffer
+/// @return The string in hex
+char* to_string_hex(int value);
+/// @brief Convert an integer to char
+/// @param value The integer
+/// @return The char
+char to_char(int value);

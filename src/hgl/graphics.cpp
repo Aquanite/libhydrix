@@ -20,6 +20,12 @@ void Graphics::fill_screen(int color) {
         }
     }
 }
+int GetOffsetFromText(string str)
+{
+    //get pixel offset per char and add
+    int len = strlen(str);
+    return len * 10;
+}
 void Graphics::put_string(char* str, int x, int y, int color) {
     //draw char but if space move x by 10
     for (int i = 0; i < strlen(str); i++) {
