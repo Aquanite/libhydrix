@@ -74,7 +74,7 @@ typedef struct _color {
 } Color;
 
 /// @brief A Color with alpha
-typedef struct _color {
+typedef struct _colora {
     /// @brief The red value.
     uint8_t r;
     /// @brief The green value.
@@ -84,3 +84,27 @@ typedef struct _color {
     /// @brief The alpha value.
     uint8_t a;
 } ColorA;
+
+/// @brief A Bitmap
+typedef struct _bmp
+{
+    uint8_t* data;
+    int width;
+    int height;
+} BMP;
+
+/// @brief A Bitmap (int)
+typedef struct _bmpi
+{
+    int* data;
+    int width;
+    int height;
+} BMPI;
+
+/// @brief A Bitmap (Alpha) (int)
+typedef struct _bmpa
+{
+    long* data; //Must be long because if an int had 0xFFFFFFFF it would be -1
+    int width;
+    int height;
+} BMPA;

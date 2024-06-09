@@ -5,6 +5,7 @@
 
 class MathF
 {
+    public:
     /// @brief Absolute value
     /// @param x The value
     /// @return The absolute value

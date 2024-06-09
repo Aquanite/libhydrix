@@ -1,12 +1,12 @@
 #include "heap.h"
-unsigned long long mem_heap_base;
+void* mem_heap_base;
 void heap_init(unsigned long long memsize)
 {
-    mem_heap_base = memsize;
+    mem_heap_base = (void*)memsize;
 }
-void* kalloc(int bytes)
+void* kalloc(uint64_t bytes)
 {
-    void* ret = (void*)mem_heap_base;
+    void* ret = mem_heap_base;
     mem_heap_base += bytes;
     return ret;
 }

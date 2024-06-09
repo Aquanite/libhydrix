@@ -1,8 +1,7 @@
-[extern isr_handler]
-[extern irq_handler]
+; MACROS.ASM (macros.asm) - Assembly macros for the x86_64 architecture
 
 ; Push all general purpose registers to the stack
-%macro pusha_ 0
+%macro pusha 0
     push rax
     push rcx
     push rdx
@@ -22,7 +21,7 @@
 %endmacro
 
 ; Pop all general purpose registers from the stack
-%macro popa_ 0
+%macro popa 0
     pop r15
     pop r14
     pop r13
@@ -39,4 +38,17 @@
     pop rdx
     pop rcx
     pop rax
+%endmacro
+
+; Prepare stack for a function call
+%macro psfc 0
+    push rbp ; Save the base pointer
+    mov rbp, rsp
+%endmacro
+
+; Prepare stack for a function call with local variables
+%macro psfc 1
+    push rbp ; Save the base pointer
+    mov rbp, rsp
+    sub rsp, %1
 %endmacro

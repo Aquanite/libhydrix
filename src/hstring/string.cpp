@@ -39,20 +39,26 @@ void reverse(char *str, int len) {
 }
 char* int_to_string(int value) {
     bool isnegative = false;
-    //if negative, set isnegative to true
     if (value < 0) {
         isnegative = true;
         value = -value;
     }
     static char buffer[32] = {0};
-    int i = 30;
-    //account for negative in first
-    if (isnegative) {
-        buffer[i--] = '-';
+    int i = 0;
+    if (value == 0) {
+        buffer[i++] = '0';
+    } else {
+        while (value != 0) {
+            buffer[i++] = (value % 10) + '0';
+            value /= 10;
+        }
     }
-    for(; value && i ; --i, value /= 10)
-        buffer[i] = "0123456789"[value % 10];
-    return &buffer[i+1];
+    if (isnegative) {
+        buffer[i++] = '-';
+    }
+    buffer[i] = '\0';
+    reverse(buffer, i);
+    return buffer;
 }
 int int_to_string(int value, char *buffer) {
     int i = 0;

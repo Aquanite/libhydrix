@@ -3,13 +3,22 @@
 #include "../hmath/intmath.h"
 #include "../hmath/floatmath.h"
 #include "../hstring/string.h"
+#include "../sdefs.h"
+#include "../hmem/smem/heap.h"
+#include "fonts.h"
 #include <stdint.h>
 #include <stddef.h>
 #include "color.h"
 class Graphics {
     public:
+        long* StringFont;
+        
+        uint64_t pitch;
+        uint64_t width;
+        uint64_t height;
+
         /// @brief The framebuffer (Limine Framebuffer)
-        limine_framebuffer framebuffer;
+        uint32_t* framebuffer;
         /// @brief The buffer to swap with
         uint32_t* SwapBuffer;
         /// @brief The constructor for the Graphics class
@@ -17,7 +26,7 @@ class Graphics {
         /// @brief Initialize the Graphics class
         /// @param fb The framebuffer
         /// @warning THIS FUNCTION WILL CAUSE A TRIPLE FAULT, PLEASE MANUALLY SET THE FRAMEBUFFER
-        void init(limine_framebuffer fb);
+        void initgmgr(uint32_t* fb, uint64_t width, uint64_t height, uint64_t pitch);
         /// @brief Put a pixel on the screen
         /// @param x The horizontal position
         /// @param y The vertical position
@@ -77,4 +86,32 @@ class Graphics {
         /// @brief Swap the buffer
         /// @warning MUST BE CALLED AFTER DRAWING FOR ANYTHING TO BE VISIBLE
         void Swap();
+        /// @brief Draws an image to the screen (bitmap)
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param image The bitmap image
+        void put_image(int x, int y, BMPI Bimage);
+        /// @brief Draws a pixel to the screen with transparency
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param color The color
+        void put_pixel_alpha(int x, int y, long color);
+        /// @brief Draws an image to the screen (bitmap) with transparency
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param image The bitmap image
+        void put_image_alpha(int x, int y, BMPA Bimage);
+        /// @brief Get a pixel from the screen
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @return The color of the pixel
+        int get_pixel(int x, int y);
+        /// @brief Load a font (Bitmap Sprite Sheet)
+        /// @param font The font (Bitmap Sprite Sheet)
+        /// @param glyph_width The width of a glyph (How wide the characters are)
+        /// @param glyph_height The height of a glyph (How tall the characters are)
+        /// @param font_char_width The width of a font character (How close the characters are to each other)
+        /// @param font_sheet_width The width of the font sheet (Example: 256 for a 16x16 font sheet)
+        void load_font(long* font, int glyph_width, int glyph_height, int font_char_width, int font_sheet_width);
+
 };

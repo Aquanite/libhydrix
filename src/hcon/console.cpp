@@ -6,17 +6,17 @@
 void Console::Write(string text)
 {
     //use put_string
-    if (currentcolumn >= graphics.framebuffer.width / 8)
+    if (currentcolumn >= graphics.width / 8)
     {
         currentline++;
         currentcolumn = 0;
     }
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, rgb(255, 255, 255));
     currentcolumn += strlen(text);
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
         currentcolumn = 0;
     }
@@ -30,10 +30,10 @@ void Console::WriteLine(string text)
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, rgb(255, 255, 255));
     currentline++;
     //calculate the new line using screen height and pxlinedown
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
     }
     currentcolumn = 0;
@@ -47,17 +47,17 @@ void Console::Write(string text, int color)
     //use put_string
     //use currencolumn multiplied by the width of a character to write the text
     //if at the end of width/charracter width, go to the next line
-    if (currentcolumn >= graphics.framebuffer.width / 8)
+    if (currentcolumn >= graphics.width / 8)
     {
         currentline++;
         currentcolumn = 0;
     }
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, color);
     currentcolumn += strlen(text);
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
         currentcolumn = 0;
     }
@@ -73,10 +73,10 @@ void Console::WriteLine(string text, int color)
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, color);
     currentline++;
     //calculate the new line using screen height and pxlinedown
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
     }
     currentcolumn = 0;
@@ -88,17 +88,17 @@ void Console::WriteS(string text)
     //use put_string
     //use currencolumn multiplied by the width of a character to write the text
     //if at the end of width/charracter width, go to the next line
-    if (currentcolumn >= graphics.framebuffer.width / 8)
+    if (currentcolumn >= graphics.width / 8)
     {
         currentline++;
         currentcolumn = 0;
     }
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, rgb(255, 255, 255));
     currentcolumn += strlen(text);
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
         currentcolumn = 0;
     }
@@ -113,10 +113,10 @@ void Console::WriteLineS(string text)
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, rgb(255, 255, 255));
     currentline++;
     //calculate the new line using screen height and pxlinedown
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
     }
     currentcolumn = 0;
@@ -130,17 +130,17 @@ void Console::WriteS(string text, int color)
     //use put_string
     //use currencolumn multiplied by the width of a character to write the text
     //if at the end of width/charracter width, go to the next line
-    if (currentcolumn >= graphics.framebuffer.width / 8)
+    if (currentcolumn >= graphics.width / 8)
     {
         currentline++;
         currentcolumn = 0;
     }
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, color);
     currentcolumn += strlen(text);
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
         currentcolumn = 0;
     }
@@ -156,10 +156,10 @@ void Console::WriteLineS(string text, int color)
     graphics.put_string(text, (currentcolumn * 8) + 1, currentline*pxlinedown, color);
     currentline++;
     //calculate the new line using screen height and pxlinedown
-    if (currentline >= graphics.framebuffer.height / pxlinedown)
+    if (currentline >= graphics.height / pxlinedown)
     {
         //shift up
-        ShiftUp((uint64_t*)graphics.framebuffer.address, graphics.framebuffer.width, graphics.framebuffer.height);
+        ShiftUp((uint64_t*)graphics.framebuffer, graphics.width, graphics.height);
         currentline--;
     }
     currentcolumn = 0;
