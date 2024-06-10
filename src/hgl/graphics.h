@@ -16,11 +16,14 @@ class Graphics {
         uint64_t pitch;
         uint64_t width;
         uint64_t height;
-
+        int dirtyX1, dirtyY1, dirtyX2, dirtyY2;
+        bool dirty;
         /// @brief The framebuffer (Limine Framebuffer)
         uint32_t* framebuffer;
         /// @brief The buffer to swap with
         uint32_t* SwapBuffer;
+
+       
         /// @brief The constructor for the Graphics class
         Graphics();
         /// @brief Initialize the Graphics class
