@@ -25,7 +25,7 @@ void Graphics::initgmgr(uint32_t* fb, uint64_t width, uint64_t height, uint64_t 
     SwapBuffer = (uint32_t*)(fb + width * height);
     return;
 }
-void Graphics::put_pixel(int x, int y, int color) {
+inline void Graphics::put_pixel(int x, int y, int color) {
     if (x >= width || y >= height) return;
     volatile uint32_t *fb_ptr = static_cast<volatile uint32_t *>(SwapBuffer);
     fb_ptr[y * (pitch / 4) + x] = color;
