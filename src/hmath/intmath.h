@@ -38,4 +38,10 @@ public:
     /// @param x The number
     /// @return The square root of x (truncated to an integer)
     static int sqrt(int x);
+    /// @brief Linear interpolation
+    /// @param a The first number
+    /// @param b The second number
+    /// @param t The interpolation factor
+    /// @return The interpolated number
+    static int lerp(int a, int b, int t);
 };

@@ -38,3 +38,11 @@ uint8_t* int_to_rgb(int value);
 /// @param value The color long
 /// @return uint8_t*, [0] R, [1] G, [2] B, [3] ALPHA
 uint8_t *long_to_rgba(long value);
+/// @brief Get the inverted RGB value
+/// @param color The RGB value
+/// @return The inverted RGB value as a bitshifted integer
+int inverse_rgb_hex(int color);
+/// @brief Get the inverted RGBA value
+/// @param color The RGBA value
+/// @return The inverted RGBA value as a bitshifted integer
+long inverse_rgba_hex(long color);

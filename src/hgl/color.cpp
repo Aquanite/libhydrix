@@ -37,3 +37,12 @@ uint8_t *long_to_rgba(long value)
     values[3] = value & 0xFF;
     return values;
 }
+int inverse_rgb_hex(int color)
+{
+    return color ^ 0xFFFFFF;
+}
+
+long inverse_rgba_hex(long color)
+{
+    return color ^ 0xFFFFFFFF;
+}

@@ -13,6 +13,9 @@ class Console
         int currentcolumn;
         /// @brief How many pixels to move down
         int pxlinedown;
+        void advance_column(int text_length);
+        void check_line_overflow();
+        void SetCursor(int x, int y);
         void Write(string text);
         void WriteLine(string text);
         void Write(string text, int color);
