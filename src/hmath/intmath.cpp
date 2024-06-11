@@ -31,3 +31,8 @@ int MathI::sqrt(int x) {
     }
     return result;
 }
+
+int MathI::lerp(int a, int b, int t)
+{
+    return a + (b - a) * t;
+}
