@@ -26,6 +26,21 @@ char* strcat(cstring dest, cstring src)
     newstr[i] = '\0';
     return newstr;
 }
+
+bool strcmp(cstring str1, cstring str2) {
+    int i = 0;
+    while (str1[i] != '\0' && str2[i] != '\0') {
+        if (str1[i] != str2[i]) {
+            return false;
+        }
+        i++;
+    }
+    if (str1[i] != '\0' || str2[i] != '\0') {
+        return false;
+    }
+    return true;
+}
+
 void reverse(char *str, int len) {
     int start = 0;
     int end = len - 1;
@@ -166,7 +181,28 @@ char* bool_to_string(bool value) {
     return value ? (char*)"true" : (char*)"false";
 }
 char* int_to_string_hex(int value) {
+    //if 0, return 0
+    if (value == 0) {
+        return "0";
+    }
+    //0x at the start
     static char buffer[32] = {0};
+    buffer[0] = '0';
+    buffer[1] = 'x';
+    int i = 30;
+    for(; value && i ; --i, value /= 16)
+        buffer[i] = "0123456789ABCDEF"[value % 16];
+    return &buffer[i+1];
+}
+char* u64_to_string_hex(uint64_t value) {
+    //if 0, return 0
+    if (value == 0) {
+        return "0";
+    }
+    //0x at the start
+    static char buffer[32] = {0};
+    buffer[0] = '0';
+    buffer[1] = 'x';
     int i = 30;
     for(; value && i ; --i, value /= 16)
         buffer[i] = "0123456789ABCDEF"[value % 16];
@@ -260,6 +296,9 @@ char* to_string(bool value) {
 }
 char* to_string_hex(int value) {
     return int_to_string_hex(value);
+}
+char* to_string_hex(uint64_t value) {
+    return u64_to_string_hex(value);
 }
 char to_char(int value) {
     return int_to_char(value);

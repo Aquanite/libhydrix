@@ -12,7 +12,10 @@
 class Graphics {
     public:
         long* StringFont;
-        
+        volatile int GRAPHICS_StringGlyphWidth;
+        volatile int GRAPHICS_StringGlyphHeight;
+        volatile int GRAPHICS_StringFontSpacing;
+        volatile int GRAPHICS_FontSheetWidth;
         uint64_t pitch;
         uint64_t width;
         uint64_t height;
@@ -28,13 +31,12 @@ class Graphics {
         Graphics();
         /// @brief Initialize the Graphics class
         /// @param fb The framebuffer
-        /// @warning THIS FUNCTION WILL CAUSE A TRIPLE FAULT, PLEASE MANUALLY SET THE FRAMEBUFFER
         void initgmgr(uint32_t* fb, uint64_t width, uint64_t height, uint64_t pitch);
         /// @brief Put a pixel on the screen
         /// @param x The horizontal position
         /// @param y The vertical position
         /// @param color The color
-        void put_pixel(int x, int y, int color);
+        inline void put_pixel(int x, int y, int color);
         /// @brief Fill the screen with a color
         /// @param color The color
         void fill_screen(int color);
@@ -104,11 +106,25 @@ class Graphics {
         /// @param y The vertical position
         /// @param image The bitmap image
         void put_image_alpha(int x, int y, BMPA Bimage);
+        /// @brief Draws an image to the screen (bitmap) with transparency
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param w The width
+        /// @param h The height
+        /// @param image The bitmap image
+        void put_image_stretch(int x, int y, int w, int h, BMPI Bimage);
+        /// @brief Draws an image to the screen (bitmap) with transparency
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param w The width
+        /// @param h The height
+        /// @param image The bitmap image
+        void put_image_stretch_alpha(int x, int y, int w, int h, BMPA Bimage);
         /// @brief Get a pixel from the screen
         /// @param x The horizontal position
         /// @param y The vertical position
         /// @return The color of the pixel
-        int get_pixel(int x, int y);
+        inline int get_pixel(int x, int y);
         /// @brief Load a font (Bitmap Sprite Sheet)
         /// @param font The font (Bitmap Sprite Sheet)
         /// @param glyph_width The width of a glyph (How wide the characters are)
@@ -116,5 +132,9 @@ class Graphics {
         /// @param font_char_width The width of a font character (How close the characters are to each other)
         /// @param font_sheet_width The width of the font sheet (Example: 256 for a 16x16 font sheet)
         void load_font(long* font, int glyph_width, int glyph_height, int font_char_width, int font_sheet_width);
-
+        /// @brief Blends two colors together
+        /// @param fg Foreground
+        /// @param bg Background
+        /// @return The blended color
+        long alpha_blend(long fg, long bg);
 };
