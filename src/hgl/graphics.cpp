@@ -2,15 +2,12 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "../hmem/smem/smem.h"
-
+#include "../hmath/fast/fastmath.h"
 // Graphics class constructor
 Graphics::Graphics() {}
 
 // Global variables for font properties
-int StringGlyphWidth;
-int StringGlyphHeight;
-int StringFontCharWidth;
-int FontSheetWidth;
+
 
 void Graphics::initgmgr(uint32_t* fb, uint64_t width, uint64_t height, uint64_t pitch) {
     this->framebuffer = fb;
@@ -18,10 +15,10 @@ void Graphics::initgmgr(uint32_t* fb, uint64_t width, uint64_t height, uint64_t 
     this->height = height;
     this->pitch = pitch;
     StringFont = (long*)CourierNew;
-    StringGlyphWidth = COURIERNEW_GLYPH_WIDTH;
-    StringGlyphHeight = COURIERNEW_GLYPH_HEIGHT;
-    StringFontCharWidth = COURIERNEW_GLYPH_SPACE;
-    FontSheetWidth = COURIERNEW_WIDTH;
+    GRAPHICS_StringGlyphWidth = COURIERNEW_GLYPH_WIDTH;
+    GRAPHICS_StringGlyphHeight = COURIERNEW_GLYPH_HEIGHT;
+    GRAPHICS_StringFontSpacing = COURIERNEW_GLYPH_SPACE;
+    GRAPHICS_FontSheetWidth = COURIERNEW_WIDTH;
     SwapBuffer = (uint32_t*)(fb + width * height);
 }
 
@@ -45,9 +42,9 @@ void Graphics::clear() {
 }
 
 void Graphics::put_char(char c, int x, int y, int color) {
-    const int glyph_width = StringGlyphWidth;
-    const int glyph_height = StringGlyphHeight;
-    const int image_width = FontSheetWidth;
+    const int glyph_width = GRAPHICS_StringGlyphWidth;
+    const int glyph_height = GRAPHICS_StringGlyphHeight;
+    const int image_width = GRAPHICS_FontSheetWidth;
 
     int char_index = c - 32;
     int char_x = char_index % 16;
@@ -66,13 +63,14 @@ void Graphics::put_char(char c, int x, int y, int color) {
 
 void Graphics::put_string(char *str, int x, int y, int color) {
     for (size_t i = 0; i < strlen(str); ++i) {
-        put_char(str[i], x + i * StringFontCharWidth, y, color);
+        put_char(str[i], x + i * GRAPHICS_StringFontSpacing, y, color);
     }
 }
 
 void Graphics::put_line(int x1, int y1, int x2, int y2, int color) {
-    int dx = MathI::abs(x2 - x1);
-    int dy = MathI::abs(y2 - y1);
+    //use void fastmath_abs(int* x);, return is x
+    int dx = retable_fastmath_abs(x2 - x1);
+    int dy = retable_fastmath_abs(y2 - y1);
     int sx = x1 < x2 ? 1 : -1;
     int sy = y1 < y2 ? 1 : -1;
     int err = (dx > dy ? dx : -dy) / 2;
@@ -153,8 +151,13 @@ void Graphics::Swap() {
 }
 
 void Graphics::put_image(int x, int y, BMPI Bimage) {
-    for (int i = 0; i < Bimage.height; ++i) {
-        memcpy(SwapBuffer + (y + i) * (pitch / 4) + x, Bimage.data + i * Bimage.width, Bimage.width * sizeof(uint32_t));
+    int colindex = 0;
+    for (int h = 0; h < Bimage.height; h++) {
+        for (int w = 0; w < Bimage.width; w++)
+        {
+            put_pixel(w+x,h+y, Bimage.data[colindex]);
+            colindex++;
+        }
     }
 }
 
@@ -185,6 +188,35 @@ void Graphics::put_image_alpha(int x, int y, BMPA Bimage) {
         }
     }
 }
+void Graphics::put_image_stretch(int x, int y, int w, int h, BMPI Bimage)
+{
+    //scale the image
+    int colindex = 0;
+    for (int i = 0; i < h; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            int x2 = j * Bimage.width / w;
+            int y2 = i * Bimage.height / h;
+            put_pixel(x + j, y + i, Bimage.data[y2 * Bimage.width + x2]);
+        }
+    }
+}
+
+void Graphics::put_image_stretch_alpha(int x, int y, int w, int h, BMPA Bimage)
+{
+    //scale the image
+    for (int i = 0; i < h; i++)
+    {
+        for (int j = 0; j < w; j++)
+        {
+            int x2 = j * Bimage.width / w;
+            int y2 = i * Bimage.height / h;
+            put_pixel_alpha(x + j, y + i, Bimage.data[y2 * Bimage.width + x2]);
+        }
+    }
+}
+
 
 inline int Graphics::get_pixel(int x, int y) {
     return SwapBuffer[y * (pitch / 4) + x];
@@ -192,11 +224,25 @@ inline int Graphics::get_pixel(int x, int y) {
 
 void Graphics::load_font(long *font, int glyph_width, int glyph_height, int font_char_width, int font_sheet_width) {
     memcpy(StringFont, font, font_sheet_width * font_sheet_width * sizeof(long));
-    StringGlyphWidth = glyph_width;
-    StringGlyphHeight = glyph_height;
-    StringFontCharWidth = font_char_width;
-    FontSheetWidth = font_sheet_width;
+    GRAPHICS_StringGlyphWidth = glyph_width;
+    GRAPHICS_StringGlyphHeight = glyph_height;
+    GRAPHICS_StringFontSpacing = font_char_width;
+    GRAPHICS_FontSheetWidth = font_sheet_width;
 }
+
+/*int Graphics::alpha_blend(int fg, int bg, char alpha)
+{
+    int r = (fg & 0xFF0000) >> 16;
+    int g = (fg & 0xFF00) >> 8;
+    int b = (fg & 0xFF);
+    int r2 = (bg & 0xFF0000) >> 16;
+    int g2 = (bg & 0xFF00) >> 8;
+    int b2 = (bg & 0xFF);
+    int r3 = (r * alpha + r2 * (255 - alpha)) / 255;
+    int g3 = (g * alpha + g2 * (255 - alpha)) / 255;
+    int b3 = (b * alpha + b2 * (255 - alpha)) / 255;
+    return (r3 << 16) | (g3 << 8) | b3;
+}*/
 
 inline void get_pixel_from_bitmap(long *bmpdata, int x, int y, int width, int height, int *color) {
     *color = bmpdata[y * width + x];

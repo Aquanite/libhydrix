@@ -2,11 +2,8 @@
 #include "stdint.h"
 #include "stddef.h"
 #include "../hmath/higherbitmath.h"
-//define VA_LIST and va_start, va_arg, va_end etc
-typedef char* va_list;
-#define va_start(ap, v) (ap = (va_list)&v + sizeof(v))
-#define va_arg(ap, t) (*(t*)(ap += sizeof(t)))
-#define va_end(ap) (ap = NULL)
+//include va list
+#include <stdarg.h>
 
 /// @brief String
 typedef char* string;
@@ -21,6 +18,11 @@ size_t strlen(const char* str);
 /// @param src The source
 /// @return The new string
 char* strcat(cstring dest, cstring src);
+/// @brief Compare two strings
+/// @param str1 The first string
+/// @param str2 The second string
+/// @return True if the strings are equal
+bool strcmp(cstring str1, cstring str2);
 /// @brief Reverse a string
 /// @param str The string
 /// @param len The length to reverse
@@ -66,6 +68,11 @@ char* to_string(bool value);
 /// @param buffer The buffer
 /// @return The string in hex
 char* to_string_hex(int value);
+/// @brief Convert a unsigned char to a string
+/// @param value The unsigned char
+/// @param buffer The buffer
+/// @return The string in hex
+char* to_string_hex(uint64_t value);
 /// @brief Convert an integer to char
 /// @param value The integer
 /// @return The char

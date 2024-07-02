@@ -108,3 +108,6 @@ typedef struct _bmpa
     int width;
     int height;
 } BMPA;
+
+BMPI Stretch_BMPI(BMPI bmp, int width, int height);
+BMPA Stretch_BMPA(BMPA bmp, int width, int height);
