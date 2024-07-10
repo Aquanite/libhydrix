@@ -17,4 +17,8 @@ To use libhydrix in your project, include the necessary header files from the mo
 
 ## License
 
-libhydrix is licensed under the GPL v3 License. See [LICENSE](https://github.com/AzureianGH/libhydrix/blob/main/LICENSE) for more information.
+libhydrix is licensed under the GPL v3 License. See [LICENSE](https://github.com/Aquanite/libhydrix/blob/main/LICENSE) for more information.
+
+# Community
+
+A discord server is available for those who wish to discuss libhydrix, ask questions, or get help. Join the server [here](https://discord.gg/TfmWCaVYXj).
