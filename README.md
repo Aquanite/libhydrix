@@ -21,4 +21,4 @@ libhydrix is licensed under the GPL v3 License. See [LICENSE](https://github.com
 
 # Community
 
-A discord server is available for those who wish to discuss libhydrix, ask questions, or get help. Join the server [here](https://discord.gg/TfmWCaVYXj).
+A discord server is available for those who wish to discuss libhydrix, ask questions, or get help. Join the server [here](https://discord.gg/TfmWCaVYXj)!
