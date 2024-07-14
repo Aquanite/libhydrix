@@ -1,21 +1,21 @@
 #pragma once
-void time_init();
-int getSeconds();
-int getMinutes();
-int getHours();
-int getDay();
-int getMonth();
-int getYear();
-int getCentury();
-int getDayOfWeek();
+void InitializeTime();
+int TimeGetSeconds();
+int TimeGetMinutes();
+int TimeGetHours();
+int TimeGetDay();
+int TimeGetMonth();
+int TimeGetYear();
+int TimeGetCentury();
+int TimeGetDayOfTheWeek();
 
 
-long long getTimeFromBoot();
-long long currentTime();
+long long TimeSinceBootMS();
+long long TimeCurrentTime();
 
 typedef struct {
     int seconds;
-    int minutes;
+    int Minimumutes;
     int hours;
     bool pm;
 } Time_t;
@@ -40,11 +40,11 @@ typedef enum {
     Sydney = 10,
     NewZealand = 12
 
-} TIMEZONE_OFFSET;
-#define DAYOFWEEK(x) (x == 0 ? "Sunday" : x == 1 ? "Monday" : x == 2 ? "Tuesday" : x == 3 ? "Wednesday" : x == 4 ? "Thursday" : x == 5 ? "Friday" : x == 6 ? "Saturday" : "Unknown")
-TIMEZONE_OFFSET GetCurrentTimezone();
-void SetCurrentTimezone(TIMEZONE_OFFSET offset);
-Time_t getTime(TIMEZONE_OFFSET timezone);
-Time_t getTime();
-Time_t getTime12Hour(TIMEZONE_OFFSET SpecifiedTimezone);
-Time_t getTime12Hour();
+} TimezoneOffset_t;
+#define DAYOFWEEKTRANSLATOR(x) (x == 0 ? "Sunday" : x == 1 ? "Monday" : x == 2 ? "Tuesday" : x == 3 ? "Wednesday" : x == 4 ? "Thursday" : x == 5 ? "Friday" : x == 6 ? "Saturday" : "Unknown")
+TimezoneOffset_t GetCurrentTimezone();
+void SetCurrentTimezone(TimezoneOffset_t offset);
+Time_t TimeGetTime(TimezoneOffset_t timezone);
+Time_t TimeGetTime();
+Time_t TimeGetTime12(TimezoneOffset_t SpecifiedTimezone);
+Time_t TimeGetTime12();

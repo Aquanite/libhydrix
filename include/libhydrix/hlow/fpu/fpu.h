@@ -11,9 +11,9 @@ class FPU {
         /// @brief Check if the FPU is enabled
         /// @return bool
         // @note This function will return true if the FPU is enabled
-        static bool Is_Enabled();
+        static bool IsFPUEnabled();
         /// @brief Init the FPU
         /// @return void
         // @note This function will initialize the FPU
-        static void Init();
+        static void InitializeFPU();
 };

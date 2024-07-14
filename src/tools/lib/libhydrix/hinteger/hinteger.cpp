@@ -3,21 +3,21 @@
 int Integer::ParseInt(string str)
 {
     int result = 0;
-    int sign = 1;
+    int Sign = 1;
     int i = 0;
     if (str[0] == '-')
     {
-        sign = -1;
+        Sign = -1;
         i++;
     }
-    for (; i < strlen(str); i++)
+    for (; i < StringLength(str); i++)
     {
         result = result * 10 + str[i] - '0';
     }
-    return sign * result;
+    return Sign * result;
 }
 
 string Integer::ToString(int value)
 {
-    return to_string(value);
+    return ToString(value);
 }

@@ -28,10 +28,10 @@ typedef struct MouseScroll
 } MouseScroll;
 
 
-MouseScroll Get_Mouse_Scroll();
-MouseState Get_Current_Mouse_State();
-void set_mouse_console(Console *console);
-void mouse_handler(registers_t *r);
-void set_mouse_sensitivity(int new_sensitivity);
-int32_t get_mouse_x();
-int32_t get_mouse_y();
+MouseScroll GetMouseScroll();
+MouseState GetCurrentMouseState();
+void SetMouseConsole(Console *console);
+void MouseHandler(registers_t *r);
+void SetMouseSensitivity(int new_sensitivity);
+int32_t GetMouseXPos();
+int32_t GetMouseYPos();

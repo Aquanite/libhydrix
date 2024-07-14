@@ -23,20 +23,20 @@
 #define PIC_READ_ISR                0x0b    /* OCW3 irq service next CMD read */
 /// @brief Send an End of Interrupt to the PIC
 /// @param irq The IRQ number
-void PIC_sendEOI(uint8_t irq);
+void SendPICEndOfInterrupt(uint8_t irq);
 /// @brief Remap the PIC
 /// @param offset1 The offset for the master PIC
 /// @param offset2 The offset for the slave PIC
-void PIC_remap(int offset1, int offset2);
+void RemapPIC(int offset1, int offset2);
 /// @brief Disable the PIC
-void pic_disable();
+void DisablePIC();
 /// @brief Set mask for IRQ line
 /// @param IRQline The IRQ line
-void IRQ_set_mask(uint8_t IRQline);
+void SetIRQMask(uint8_t IRQline);
 /// @brief Clear mask for IRQ line
 /// @param IRQline The IRQ line
-void IRQ_clear_mask(uint8_t IRQline);
+void ClearIRQMask(uint8_t IRQline);
 /// @brief Get the Interrupt Request Register
-uint16_t pic_get_irr(void);
+uint16_t GetPICIrr(void);
 /// @brief Get the In-Service Register
-uint16_t pic_get_isr(void);
+uint16_t GetPICIsr(void);

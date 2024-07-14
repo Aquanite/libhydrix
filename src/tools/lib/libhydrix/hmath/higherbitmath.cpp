@@ -90,7 +90,7 @@ uint128_t Math128::Neg(uint128_t a) {
     return result;
 }
 
-uint128_t Math128::Abs(uint128_t a) {
+uint128_t Math128::Absolute(uint128_t a) {
     uint128_t result;
     result.low = a.low;
     result.high = a.high;
@@ -104,10 +104,10 @@ uint128_t Math128::Pow(uint128_t a, uint64_t b) {
     return result;
 }
 
-uint128_t Math128::Sqrt(uint128_t a) {
+uint128_t Math128::SquareRoot(uint128_t a) {
     uint128_t result;
-    result.low = MathI::sqrt(a.low);
-    result.high = MathI::sqrt(a.high);
+    result.low = MathI::SquareRoot(a.low);
+    result.high = MathI::SquareRoot(a.high);
     return result;
 }
 
@@ -195,10 +195,10 @@ uint256_t Math256::Neg(uint256_t a) {
     return result;
 }
 
-uint256_t Math256::Abs(uint256_t a) {
+uint256_t Math256::Absolute(uint256_t a) {
     uint256_t result;
-    result.low = Math128::Abs(a.low);
-    result.high = Math128::Abs(a.high);
+    result.low = Math128::Absolute(a.low);
+    result.high = Math128::Absolute(a.high);
     return result;
 }
 
@@ -209,10 +209,10 @@ uint256_t Math256::Pow(uint256_t a, uint64_t b) {
     return result;
 }
 
-uint256_t Math256::Sqrt(uint256_t a) {
+uint256_t Math256::SquareRoot(uint256_t a) {
     uint256_t result;
-    result.low = Math128::Sqrt(a.low);
-    result.high = Math128::Sqrt(a.high);
+    result.low = Math128::SquareRoot(a.low);
+    result.high = Math128::SquareRoot(a.high);
     return result;
 }
 // End of file

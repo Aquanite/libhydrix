@@ -80,7 +80,7 @@ void create_descriptors()
 }
 
 //create descriptors and load GDT + TSS
-void gdt_init()
+void InitializeGDT()
 {
     create_descriptors();
 

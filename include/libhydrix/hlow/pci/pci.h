@@ -24,5 +24,5 @@ typedef struct __pci_driver {
 	uint8_t (*init_driver)(void);
 	uint8_t (*exit_driver)(void);
 } pci_driver;
-void Set_Console_PCI(Console *con);
-extern void pci_init();
+void SetPCIConsole(Console *con);
+extern void InitializePCI();

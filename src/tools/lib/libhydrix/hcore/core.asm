@@ -19,7 +19,9 @@ explicit_enable_sse:
     
     ret
 
+
 _start:
     cld                         ; Clear the direction flag as the C declaration mandates.
     and rsp, 0xfffffffffffffff0 ; Align stack to 16 bytes.
+    ;Check if SSE
     call hydrix_main            ; Call the lib hydrix initialization function.
