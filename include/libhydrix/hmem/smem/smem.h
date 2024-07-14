@@ -33,4 +33,4 @@ int memcmp(const void *s1, const void *s2, size_t n);
 #ifdef __cplusplus
 }
 #endif
-uint64_t _retrieve_total_memory(limine_memmap_response *memmap);
+uint64_t RetrieveTotalMemory(limine_memmap_response *memmap);

@@ -1,8 +1,12 @@
 #pragma once
 
-#define COM1 0x3F8
+class Debugger
+{
+    public:
+    #define COM1 0x3F8
 
-void DebugPrint(const char* str);
+    static void DebugPrint(const char* str);
 
-void CLIHalt();
-void STIHalt();
+    static void CLIHalt();
+    static void STIHalt();
+};

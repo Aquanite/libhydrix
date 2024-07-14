@@ -1,17 +1,17 @@
 #include <libhydrix/hstring/string.h>
 #include <libhydrix/hmem/smem/heap.h>
 
-size_t strlen(const char* str) {
+size_t StringLength(const char* str) {
     size_t len = 0;
     while (str[len])
         len++;
     return len;
 }
 
-char* strcat(cstring dest, cstring src) 
+char* StringConcatenate(cstring dest, cstring src) 
 {
-    //kalloc
-    char* newstr = (char*)kalloc(strlen(dest) + strlen(src) + 1);
+    //KernelAllocate
+    char* newstr = (char*)KernelAllocate(StringLength(dest) + StringLength(src) + 1);
     int i = 0;
     int j = 0;
     while (dest[i] != '\0') {
@@ -27,7 +27,7 @@ char* strcat(cstring dest, cstring src)
     return newstr;
 }
 
-bool strcmp(cstring str1, cstring str2) {
+bool StringCompare(cstring str1, cstring str2) {
     int i = 0;
     while (str1[i] != '\0' && str2[i] != '\0') {
         if (str1[i] != str2[i]) {
@@ -41,7 +41,7 @@ bool strcmp(cstring str1, cstring str2) {
     return true;
 }
 
-void reverse(char *str, int len) {
+void ReverseString(char *str, int len) {
     int start = 0;
     int end = len - 1;
     while (start < end) {
@@ -72,7 +72,7 @@ char* int_to_string(int value) {
         buffer[i++] = '-';
     }
     buffer[i] = '\0';
-    reverse(buffer, i);
+    ReverseString(buffer, i);
     return buffer;
 }
 int int_to_string(int value, char *buffer) {
@@ -86,7 +86,7 @@ int int_to_string(int value, char *buffer) {
         }
     }
     buffer[i] = '\0';
-    reverse(buffer, i);
+    ReverseString(buffer, i);
     return i;
 }
 char* u8_to_string(uint8_t value) {
@@ -243,63 +243,63 @@ char int_to_char(int value) {
         return '0';
     }
 }
-char* to_string(int value) {
+char* ToString(int value) {
     if (value == 0) {
         return "0";
     }
     return int_to_string(value);
 }
-char* to_string(uint8_t value) {
+char* ToString(uint8_t value) {
     if (value == 0) {
         return "0";
     }
     return u8_to_string(value);
 }
-char* to_string(uint16_t value) {
+char* ToString(uint16_t value) {
     if (value == 0) {
         return "0";
     }
     return u16_to_string(value);
 }
-char* to_string(uint32_t value) {
+char* ToString(uint32_t value) {
     if (value == 0) {
         return "0";
     }
     return u32_to_string(value);
 }
-char* to_string(uint64_t value) {
+char* ToString(uint64_t value) {
     if (value == 0) {
         return "0";
     }
     return u64_to_string(value);
 }
-char* to_string(float value) {
+char* ToString(float value) {
     if (value == 0.0f) {
         return "0.0";
     }
     return float_to_string(value);
 }
-char* to_string(double value) {
+char* ToString(double value) {
     if (value == 0.0) {
         return "0.0";
     }
     return double_to_string(value);
 }
-char* to_string(char value) {
+char* ToString(char value) {
     if (value == '0') {
         return "0";
     }
     return char_to_string(value);
 }
-char* to_string(bool value) {
+char* ToString(bool value) {
     return bool_to_string(value);
 }
-char* to_string_hex(int value) {
+char* ToHexNumberString(int value) {
     return int_to_string_hex(value);
 }
-char* to_string_hex(uint64_t value) {
+char* ToHexNumberString(uint64_t value) {
     return u64_to_string_hex(value);
 }
-char to_char(int value) {
+char ToCharacter(int value) {
     return int_to_char(value);
 }

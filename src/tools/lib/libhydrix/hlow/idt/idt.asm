@@ -35,13 +35,13 @@ pop rbx
 pop rax
 %endmacro
 
-extern isr_handler
+extern ISRHandler
 
 isr_default:
   cli
   pushall
   mov rdi, rsp 
-  call isr_handler
+  call ISRHandler
   popall
   add rsp, 24
   sti

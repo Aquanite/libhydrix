@@ -12,11 +12,11 @@ char upperscancode[58] = {
 };
 bool GetKeyDown(char scancode)
 {
-    return inb(0x60) == scancode;
+    return PortIO::InByte(0x60) == scancode;
 }
 inline uint8_t getScancode()
 {
-    return inb(0x60);
+    return PortIO::InByte(0x60);
 }
 bool AllowKeyboard = true;
 
@@ -29,7 +29,7 @@ void EnableKeyboard()
     AllowKeyboard = true;
 }
 
-void keyboard_handler(registers_t *r)
+void KeyboardHandler(registers_t *r)
 {
     if (!AllowKeyboard)
     {
@@ -65,12 +65,12 @@ void keyboard_handler(registers_t *r)
     return;
 }
 
-void Keyboard_Init(Console* console)
+void KeyboardInit(Console* console)
 {
     Keyboard_Console_IDT = console;
 }
 
-uint64_t Keyboard_GetKey()
+uint64_t KeyboardGetKey()
 {
     return (uint64_t)LastScancode;
 }

@@ -96,7 +96,7 @@ class Math128
         /// @brief Absolute value of a 128-bit integer
         /// @param a The integer
         /// @return The result
-        static uint128_t Abs(uint128_t a);
+        static uint128_t Absolute(uint128_t a);
         /// @brief Power of a 128-bit integer
         /// @param a The integer
         /// @param b The power
@@ -105,7 +105,7 @@ class Math128
         /// @brief Square root of a 128-bit integer
         /// @param a The integer
         /// @return The result
-        static uint128_t Sqrt(uint128_t a);
+        static uint128_t SquareRoot(uint128_t a);
 };
 
 /// @brief Math class for 256-bit integers
@@ -173,7 +173,7 @@ class Math256
         /// @brief Absolute value of a 256-bit integer
         /// @param a The integer
         /// @return The result
-        static uint256_t Abs(uint256_t a);
+        static uint256_t Absolute(uint256_t a);
         /// @brief Power of a 256-bit integer
         /// @param a The integer
         /// @param b The power
@@ -182,6 +182,6 @@ class Math256
         /// @brief Square root of a 256-bit integer
         /// @param a The integer
         /// @return The result
-        static uint256_t Sqrt(uint256_t a);
+        static uint256_t SquareRoot(uint256_t a);
 };
 

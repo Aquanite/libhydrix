@@ -9,7 +9,7 @@ $$$$$$$$\ $$$$$$\ $$$$$$$  |     |$$ |  $$ |    $$ |    $$$$$$$  |$$ |  $$ |$$$$
 \________|\______|\_______/       \__|  \__|    \__|    \_______/ \__|  \__|\______|\__|  \__|
 ```
                                                                                         
-**libhydrix** is a powerful, modular C++ library that provides various utilities and functionalities for building a Limine protocol OS. The library is organized into several distinct modules, each focusing on a specific aspect of OS development.
+**libhydrix** is a powerful, modular C++ library that provides various utilities and functionalities for building a LIMINE protocol OS. The library is organized into several distinct modules, each focusing on a specific aspect of OS development.
 
 ## Getting Started
 

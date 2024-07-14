@@ -3,7 +3,7 @@
 static limine_memmap_response *memmap_res;
 static uint64_t Total_Memory_Size_In_Bytes;
 
-uint64_t LimineUtils::Set_Total_Mem(limine_memmap_response *memmap_request)
+uint64_t LIMINEUtils::SetTotalMemoryBytes(limine_memmap_response *memmap_request)
 {
     //loop through each entry and check type
     for (int i = 0; i < memmap_request->entry_count; i++)
@@ -17,7 +17,7 @@ uint64_t LimineUtils::Set_Total_Mem(limine_memmap_response *memmap_request)
     }
     return Total_Memory_Size_In_Bytes;
 }
-uint64_t LimineUtils::Get_Total_Mem()
+uint64_t LIMINEUtils::GetTotalMemoryBytes()
 {
     return Total_Memory_Size_In_Bytes;
 }
