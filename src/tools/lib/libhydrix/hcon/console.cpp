@@ -4,17 +4,17 @@
 
 
 
-inline void Console::advance_column(int text_length) {
+inline void Console::AdvanceColumn(int text_length) {
     currentcolumn += text_length;
-    if (currentcolumn >= graphics->width / 8) {
+    if (currentcolumn >= graphics->Width / 8) {
         currentcolumn = 0;
         currentline++;
     }
 }
 
-inline void Console::check_line_overflow() {
-    if (currentline >= graphics->height / pxlinedown) {
-        ShiftUp((uint64_t*)graphics->framebuffer, graphics->width, graphics->height);
+inline void Console::CheckLineOverflow() {
+    if (currentline >= graphics->Height / pxlinedown) {
+        ShiftUp((uint64_t*)graphics->FrameBuffer, graphics->Width, graphics->Height);
         currentline--;
     }
 }
@@ -39,14 +39,14 @@ void Console::PutChar(char c)
     {
         currentline++;
         currentcolumn = 0;
-        check_line_overflow();
+        CheckLineOverflow();
         return;
     }
     else if (c == '\b')
     {
         if (currentline == 0 && currentcolumn == 0) return;
-        //draw a black rectangle to cover the character the same size as the character, use GRAPHICS_StringGlyphWidth, GRAPHICS_StringGlyphHeight, GRAPHICS_StringFontCharWidth, GRAPHICS_FontSheetWidth, use graphics->put_filled_rect
-        //get offset of the area minus the char spacing and the char width
+        //draw a black rectangle to cover the character the same size as the character, use GlyphWidth, GRAPHICS_StringGlyphHeight, GRAPHICS_StringFontCharWidth, GRAPHICS_FontSheetWidth, use graphics->put_filled_rect
+        //get offset of the area Minimumus the char spacing and the char width
         //get the x and y of the char
         //get the char offset
         //for each pixel in the char, if the pixel is not 0, put a pixel at the x and y of the char with the color 0
@@ -54,11 +54,11 @@ void Console::PutChar(char c)
         //else go to the previous column
         int x = (currentcolumn * 8) + 1;
         int y = currentline * pxlinedown;
-        graphics->put_filled_rect(x, y, graphics->GRAPHICS_StringGlyphWidth, pxlinedown, 0);
+        graphics->DrawFilledRectangle(x, y, graphics->GlyphWidth, pxlinedown, 0);
         if (currentcolumn == 0)
         {
             currentline--;
-            currentcolumn = graphics->width / 8 - 1;
+            currentcolumn = graphics->Width / 8 - 1;
         }
         else
         {
@@ -69,72 +69,72 @@ void Console::PutChar(char c)
     else
     {
         if (c < 32 || c > 126) return;
-        graphics->put_char(c, (currentcolumn * 8) + 1, currentline * pxlinedown, rgb(255, 255, 255));
-        advance_column(1);
-        check_line_overflow();
+        graphics->DrawChar(c, (currentcolumn * 8) + 1, currentline * pxlinedown, IColor::RGB(255, 255, 255));
+        AdvanceColumn(1);
+        CheckLineOverflow();
     }
 }
 
 void Console::PutCharS(char c)
 {
     PutChar(c);
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::Write(string text) {
-    graphics->put_string(text, (currentcolumn * 8) + 1, currentline * pxlinedown, rgb(255, 255, 255));
-    advance_column(strlen(text));
-    check_line_overflow();
+    graphics->DrawString(text, (currentcolumn * 8) + 1, currentline * pxlinedown, IColor::RGB(255, 255, 255));
+    AdvanceColumn(StringLength(text));
+    CheckLineOverflow();
 }
 
 void Console::WriteLine(string text) {
-    graphics->put_string(text, (currentcolumn * 8) + 1, currentline * pxlinedown, rgb(255, 255, 255));
+    graphics->DrawString(text, (currentcolumn * 8) + 1, currentline * pxlinedown, IColor::RGB(255, 255, 255));
     currentline++;
-    check_line_overflow();
+    CheckLineOverflow();
     currentcolumn = 0;
 }
 
 void Console::Write(string text, int color) {
-    graphics->put_string(text, (currentcolumn * 8) + 1, currentline * pxlinedown, color);
-    advance_column(strlen(text));
-    check_line_overflow();
+    graphics->DrawString(text, (currentcolumn * 8) + 1, currentline * pxlinedown, color);
+    AdvanceColumn(StringLength(text));
+    CheckLineOverflow();
 }
 
 void Console::WriteLine(string text, int color) {
-    graphics->put_string(text, (currentcolumn * 8) + 1, currentline * pxlinedown, color);
+    graphics->DrawString(text, (currentcolumn * 8) + 1, currentline * pxlinedown, color);
     currentline++;
-    check_line_overflow();
+    CheckLineOverflow();
     currentcolumn = 0;
 }
 
 void Console::WriteS(string text) {
     Write(text);
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::WriteLineS(string text) {
     WriteLine(text);
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::WriteS(string text, int color) {
     Write(text, color);
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::WriteLineS(string text, int color) {
     WriteLine(text, color);
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::WriteLineA(string text, int color, ...) {
-    //use strcat to append the strings
+    //use StringConcatenate to append the strings
     va_list args;
     va_start(args, color);
     string newtext = text;
     string arg = va_arg(args, string);
-    while (!strcmp(arg, "")) {
-        newtext = strcat(newtext, arg);
+    while (!StringCompare(arg, "")) {
+        newtext = StringConcatenate(newtext, arg);
         arg = va_arg(args, string);
     }
     va_end(args);
@@ -146,8 +146,8 @@ void Console::WriteLineA(string text, ...) {
     va_start(args, text);
     string newtext = text;
     string arg = va_arg(args, string);
-    while (!strcmp(arg, "")) {
-        newtext = strcat(newtext, arg);
+    while (!StringCompare(arg, "")) {
+        newtext = StringConcatenate(newtext, arg);
         arg = va_arg(args, string);
     }
     va_end(args);
@@ -159,8 +159,8 @@ void Console::WriteLineAS(string text, int color, ...) {
     va_start(args, color);
     string newtext = text;
     string arg = va_arg(args, string);
-    while (!strcmp(arg, "")) {
-        newtext = strcat(newtext, arg);
+    while (!StringCompare(arg, "")) {
+        newtext = StringConcatenate(newtext, arg);
         arg = va_arg(args, string);
     }
     va_end(args);
@@ -172,8 +172,8 @@ void Console::WriteLineAS(string text, ...) {
     va_start(args, text);
     string newtext = text;
     string arg = va_arg(args, string);
-    while (!strcmp(arg, "")) {
-        newtext = strcat(newtext, arg);
+    while (!StringCompare(arg, "")) {
+        newtext = StringConcatenate(newtext, arg);
         arg = va_arg(args, string);
     }
     va_end(args);
@@ -181,14 +181,14 @@ void Console::WriteLineAS(string text, ...) {
 }
 
 void Console::Clear() {
-    graphics->clear();
+    graphics->Clear();
     currentline = 0;
     currentcolumn = 0;
 }
 
 void Console::ClearS() {
     Clear();
-    graphics->swap();
+    graphics->Display();
 }
 
 void Console::ShiftUp(uint64_t* buffer, uint64_t width, uint64_t height) {

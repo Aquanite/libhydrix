@@ -12,12 +12,12 @@ static void* mem_heap_base;
 static void* mem_heap_end;
 static mem_block_t* free_list = NULL;
 
-void heap_init(unsigned long long memsize) {
+void InitializeHeap(unsigned long long memsize) {
     mem_heap_base = (void*)memsize;
     mem_heap_end = mem_heap_base;
 }
 
-void* kalloc(uint64_t bytes) {
+void* KernelAllocate(uint64_t bytes) {
     mem_block_t* prev = NULL;
     mem_block_t* curr = free_list;
 
@@ -46,7 +46,7 @@ void* kalloc(uint64_t bytes) {
     return (void*)(block + 1);
 }
 
-void kfree(void* ptr) {
+void KernelFree(void* ptr) {
     if (!ptr) {
         return;
     }
@@ -56,9 +56,9 @@ void kfree(void* ptr) {
     free_list = block;
 }
 
-void* krealloc(void* ptr, uint64_t bytes) {
+void* KernelReallocate(void* ptr, uint64_t bytes) {
     if (!ptr) {
-        return kalloc(bytes);
+        return KernelAllocate(bytes);
     }
 
     mem_block_t* old_block = (mem_block_t*)ptr - 1;
@@ -66,18 +66,18 @@ void* krealloc(void* ptr, uint64_t bytes) {
         return ptr; // The current block is already large enough
     }
 
-    void* newptr = kalloc(bytes);
+    void* newptr = KernelAllocate(bytes);
     if (newptr) {
         memcpy(newptr, ptr, old_block->size);
-        kfree(ptr);
+        KernelFree(ptr);
     }
 
     return newptr;
 }
 
-void* kcalloc(uint64_t bytes)
+void* KernelCleanAllocate(uint64_t bytes)
 {
-    void* ptr = kalloc(bytes);
+    void* ptr = KernelAllocate(bytes);
     // Zero out the memory
     memset(ptr, 0, bytes);
     return ptr;

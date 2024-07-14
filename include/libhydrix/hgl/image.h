@@ -5,6 +5,6 @@
 #include <libhydrix/sdefs.h>
 #include <libhydrix/hmem/smem/heap.h>
 /// @brief Stretch an image
-BMPI *stretch_image(BMPI *image, int width, int height);
+BMPI *StretchImage(BMPI *image, int width, int height);
 
-BMPA *stretch_image_alpha(BMPA *image, int width, int height);
+BMPA *StretchAlphaImage(BMPA *image, int width, int height);

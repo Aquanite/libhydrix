@@ -27,12 +27,12 @@ void FPU::Enable()
         __asm__ __volatile__("int $0x20");
     }
 }
-bool FPU::Is_Enabled()
+bool FPU::IsFPUEnabled()
 {
     return fpu_enabled;
 }
 
-void FPU::Init()
+void FPU::InitializeFPU()
 {
 
 }

@@ -3,12 +3,12 @@
 static long int rand_seed = 0;
 /// @brief Generate a random number
 /// @return The random number
-int rand();
+int Random();
 /// @brief Set the seed for the random number generator
 /// @param seed The seed
-void srand(unsigned long int seed);
+void SetRandomSeed(unsigned long int seed);
 /// @brief Generate a random number in a range
-/// @param min The minimum value
-/// @param max The maximum value
+/// @param Minimum The Minimumimum value
+/// @param Maximum The Maximumimum value
 /// @return The random number
-int rand_range(int min, int max);
+int RandomWithRange(int Minimum, int Maximum);

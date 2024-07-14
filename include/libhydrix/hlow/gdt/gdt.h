@@ -58,4 +58,4 @@ struct GDTPtr
     uint64_t base_64;
 } __attribute__((packed));
 /// @brief Initialize the GDT
-void gdt_init();
+void InitializeGDT();

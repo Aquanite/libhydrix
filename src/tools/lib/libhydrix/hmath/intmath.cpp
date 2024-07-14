@@ -1,27 +1,27 @@
 #include <libhydrix/hmath/intmath.h>
-int MathI::abs(int x) {
+int MathI::Absolute(int x) {
     return x < 0 ? -x : x;
 }
-int MathI::min(int a, int b) {
+int MathI::Minimum(int a, int b) {
     return a < b ? a : b;
 }
-int MathI::max(int a, int b) {
+int MathI::Maximum(int a, int b) {
     return a > b ? a : b;
 }
-int MathI::clamp(int x, int min, int max) {
-    return x < min ? min : x > max ? max : x;
+int MathI::Clamp(int x, int Minimum, int Maximum) {
+    return x < Minimum ? Minimum : x > Maximum ? Maximum : x;
 }
-int MathI::sign(int x) {
+int MathI::Sign(int x) {
     return x < 0 ? -1 : x > 0 ? 1 : 0;
 }
-int MathI::pow(int x, int y) {
+int MathI::Power(int x, int y) {
     int result = 1;
     for (int i = 0; i < y; i++) {
         result *= x;
     }
     return result;
 }
-int MathI::sqrt(int x) {
+int MathI::SquareRoot(int x) {
     int result = 0;
     for (int i = 15; i >= 0; i--) {
         int temp = result | (1 << i);
@@ -32,7 +32,7 @@ int MathI::sqrt(int x) {
     return result;
 }
 
-int MathI::lerp(int a, int b, int t)
+int MathI::LinearInterpolation(int a, int b, int t)
 {
     return a + (b - a) * t;
 }

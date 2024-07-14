@@ -26,7 +26,7 @@ typedef struct {
 #define IDT_ENTRIES 256
 
 // Functions
-void set_idt_gate(int n, uint64_t handler);
-void set_idt();
-void enable_interrupts();
-void disable_interrupts();
+void SetIDTGate(int n, uint64_t handler);
+void InitializeIDT();
+void EnableInterrupts();
+void DisableInterrupts();

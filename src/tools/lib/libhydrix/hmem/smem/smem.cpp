@@ -135,7 +135,7 @@ int memcmp(const void *s1, const void *s2, size_t n) {
 #ifdef __cplusplus
 }
 #endif
-uint64_t _retrieve_total_memory(limine_memmap_response *memmap) {
+uint64_t RetrieveTotalMemory(limine_memmap_response *memmap) {
     uint64_t memsize = 0;
     for (size_t i = 0; i < memmap->entry_count; i++)
     {

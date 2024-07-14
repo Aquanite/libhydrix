@@ -8,7 +8,7 @@ pci_driver **pci_drivers = 0;
 uint32_t drivs = 0;
 Console *con_pci;
 
-void Set_Console_PCI(Console *con)
+void SetPCIConsole(Console *con)
 {
     con_pci = con;
 }
@@ -29,8 +29,8 @@ uint16_t pci_read_word(uint16_t bus, uint16_t slot, uint16_t func, uint16_t offs
     uint16_t tmp = 0;
     address = (uint64_t)((lbus << 16) | (lslot << 11) |
               (lfunc << 8) | (offset & 0xfc) | ((uint32_t)0x80000000));
-    outl(0xCF8, address);
-    tmp = (uint16_t)((inl (0xCFC) >> ((offset & 2) * 8)) & 0xffff);
+    PortIO::OutLong(0xCF8, address);
+    tmp = (uint16_t)((PortIO::InLong (0xCFC) >> ((offset & 2) * 8)) & 0xffff);
     return (tmp);
 }
 
@@ -69,8 +69,8 @@ void pci_probe()
                     uint16_t vendor = getVendorID(bus, slot, function);
                     if(vendor == 0xffff) continue;
                     uint16_t device = getDeviceID(bus, slot, function);
-                    con_pci->WriteLineS(strcat(strcat("vendor: 0x", to_string_hex(vendor)),strcat(" device: 0x", to_string_hex(device))));
-                    pci_device *pdev = (pci_device *)kalloc(sizeof(pci_device));
+                    con_pci->WriteLineS(StringConcatenate(StringConcatenate("vendor: 0x", ToHexNumberString(vendor)),StringConcatenate(" device: 0x", ToHexNumberString(device))));
+                    pci_device *pdev = (pci_device *)KernelAllocate(sizeof(pci_device));
                     pdev->vendor = vendor;
                     pdev->device = device;
                     pdev->func = function;
@@ -92,11 +92,11 @@ void pci_probe()
  }
 
 
-void pci_init()
+void InitializePCI()
 {
 	devs = drivs = 0;
-	pci_devices = (pci_device **)kalloc(32 * sizeof(pci_device));
-	pci_drivers = (pci_driver **)kalloc(32 * sizeof(pci_driver));
+	pci_devices = (pci_device **)KernelAllocate(32 * sizeof(pci_device));
+	pci_drivers = (pci_driver **)KernelAllocate(32 * sizeof(pci_driver));
 	pci_probe();
     return;
 }
