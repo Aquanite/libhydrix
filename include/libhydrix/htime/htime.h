@@ -14,10 +14,10 @@ long long TimeSinceBootMS();
 long long TimeCurrentTime();
 
 typedef struct {
-    int seconds;
-    int Minimumutes;
-    int hours;
-    bool pm;
+    int Seconds;
+    int Minutes;
+    int Hours;
+    bool PM;
 } Time_t;
 
 typedef enum {
