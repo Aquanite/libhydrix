@@ -132,92 +132,92 @@ TimezoneOffset_t GetCurrentTimezone()
 Time_t TimeGetTime(TimezoneOffset_t timezone)
 {
 	Time_t time;
-	time.seconds = TimeGetSeconds();
-	time.Minimumutes = TimeGetMinutes();
-	time.hours = TimeGetHours();
+	time.Seconds = TimeGetSeconds();
+	time.Minutes = TimeGetMinutes();
+	time.Hours = TimeGetHours();
 
 	// Add timezone offset
-	time.hours += timezone;
+	time.Hours += timezone;
 
 	// If the timezone is India (Mumbai), add 30 Minimumutes
 	if (timezone == Mumbai)
 	{
-		time.Minimumutes += 30;
-		if (time.Minimumutes >= 60)
+		time.Minutes += 30;
+		if (time.Minutes >= 60)
 		{
-			time.Minimumutes -= 60;
-			time.hours++;
+			time.Minutes -= 60;
+			time.Hours++;
 		}
 	}
 
 	// Wrap around the hours if negative or greater than 23
-	if (time.hours < 0)
+	if (time.Hours < 0)
 	{
-		time.hours += 24;
+		time.Hours += 24;
 	}
-	else if (time.hours >= 24)
+	else if (time.Hours >= 24)
 	{
-		time.hours -= 24;
+		time.Hours -= 24;
 	}
 
-	time.pm = false;
+	time.PM = false;
 	return time;
 
 }
 Time_t TimeGetTime()
 {
 	Time_t time;
-	time.seconds = TimeGetSeconds();
-	time.Minimumutes = TimeGetMinutes();
-	time.hours = TimeGetHours();
+	time.Seconds = TimeGetSeconds();
+	time.Minutes = TimeGetMinutes();
+	time.Hours = TimeGetHours();
 
 	// Add timezone offset
-	time.hours += CurrentSelectedTimezone;
+	time.Hours += CurrentSelectedTimezone;
 
 	// If the timezone is India (Mumbai), add 30 Minimumutes
 	if (CurrentSelectedTimezone == Mumbai)
 	{
-		time.Minimumutes += 30;
-		if (time.Minimumutes >= 60)
+		time.Minutes += 30;
+		if (time.Minutes >= 60)
 		{
-			time.Minimumutes -= 60;
-			time.hours++;
+			time.Minutes -= 60;
+			time.Hours++;
 		}
 	}
 
 	// Wrap around the hours if negative or greater than 23
-	if (time.hours < 0)
+	if (time.Hours < 0)
 	{
-		time.hours += 24;
+		time.Hours += 24;
 	}
-	else if (time.hours >= 24)
+	else if (time.Hours >= 24)
 	{
-		time.hours -= 24;
+		time.Hours -= 24;
 	}
 
-	time.pm = false;
+	time.PM = false;
 	return time;
 }
 
 Time_t convertTo12Hour(Time_t time)
 {
-	if (time.hours == 0)
+	if (time.Hours == 0)
 	{
-		time.hours = 12;
-		time.pm = false;
+		time.Hours = 12;
+		time.PM = false;
 	}
-	else if (time.hours == 12)
+	else if (time.Hours == 12)
 	{
-		time.pm = true;
+		time.PM = true;
 	}
-	else if (time.hours > 12)
+	else if (time.Hours > 12)
 	{
-		time.hours -= 12;
-		time.pm = true;
+		time.Hours -= 12;
+		time.PM = true;
 	}
 	else
 	{
-		time.pm = false;
+		time.PM = false;
 	}
 	return time;
 }
@@ -225,32 +225,32 @@ Time_t convertTo12Hour(Time_t time)
 Time_t TimeGetTime12(TimezoneOffset_t SpecifiedTimezone)
 {
 	Time_t time;
-	time.seconds = TimeGetSeconds();
-	time.Minimumutes = TimeGetMinutes();
-	time.hours = TimeGetHours();
+	time.Seconds = TimeGetSeconds();
+	time.Minutes = TimeGetMinutes();
+	time.Hours = TimeGetHours();
 
 	// Add timezone offset
-	time.hours += SpecifiedTimezone;
+	time.Hours += SpecifiedTimezone;
 
 	// If the timezone is India (Mumbai), add 30 Minimumutes
 	if (SpecifiedTimezone == Mumbai)
 	{
-		time.Minimumutes += 30;
-		if (time.Minimumutes >= 60)
+		time.Minutes += 30;
+		if (time.Minutes >= 60)
 		{
-			time.Minimumutes -= 60;
-			time.hours++;
+			time.Minutes -= 60;
+			time.Hours++;
 		}
 	}
 
 	// Wrap around the hours if negative or greater than 23
-	if (time.hours < 0)
+	if (time.Hours < 0)
 	{
-		time.hours += 24;
+		time.Hours += 24;
 	}
-	else if (time.hours >= 24)
+	else if (time.Hours >= 24)
 	{
-		time.hours -= 24;
+		time.Hours -= 24;
 	}
 
 	// Convert to 12-hour format
