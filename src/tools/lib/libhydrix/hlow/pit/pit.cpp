@@ -4,6 +4,10 @@
 volatile uint64_t global_tick = 0;
 uint64_t frequency = PIT_DEF_FREQ;
 
+uint64_t TimeGetMilliseconds() {
+    return global_tick * PIT2MS(frequency);
+}
+
 void PITTimerHandler(registers_t *r) {
     global_tick += 1;
 }
@@ -27,7 +31,7 @@ void PITSleepMS(uint64_t msec) {
     }
 }
 
-void SetPITFrequency(uint64_t freq) {
+void SetPITFrequency(uint64_t freq) { // freq is in Hz
     if (freq == 0) return; // avoid division by zero
     frequency = freq;
     uint64_t divisor = 1193180 / freq;

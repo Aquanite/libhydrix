@@ -5,6 +5,8 @@
 
 class Console
 {       
+    private:
+        string* buffer;
     public:
         bool allow_typing = false;
         /// @brief Graphics object

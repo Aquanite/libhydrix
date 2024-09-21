@@ -2,7 +2,7 @@
 #include <libhydrix/hio/io.h>
 #include <libhydrix/hmem/smem/smem.h>
 
-
+string* buffer;
 
 inline void Console::AdvanceColumn(int text_length) {
     currentcolumn += text_length;
@@ -204,5 +204,6 @@ void Console::Init(Graphics *graphics, int pxlinedown, bool allow_typing)
     this->allow_typing = allow_typing;
     currentline = 0;
     currentcolumn = 0;
+    buffer = new string[100];
     Clear();
 }

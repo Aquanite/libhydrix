@@ -108,3 +108,15 @@ typedef struct _bmpa
     int width;
     int height;
 } BMPA;
+
+typedef uint8_t byte;
+
+BMPI StretchBMPI(BMPI bmp, int width, int height);
+BMPA StretchBMPA(BMPA bmp, int width, int height);
+
+//word, dword, qword
+typedef uint16_t word;
+typedef uint32_t dword;
+typedef uint64_t qword;
+
+#define nullptr 0

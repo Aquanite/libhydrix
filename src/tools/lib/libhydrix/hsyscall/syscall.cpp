@@ -89,9 +89,7 @@ void HandleSyscall(registers_t *r)
             SAImage.data = (long*)r->rsi;
             syscall_console->graphics->DrawStretchedAlphaImage(r->r8, r->r9, r->r10, r->r11, SAImage);
             break;
-        case 14:
-            syscall_console->graphics->DrawAlphaPixel(r->rcx, r->rdx, r->rsi);
-            break;
+        
         }
 
     }

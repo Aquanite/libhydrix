@@ -3,6 +3,8 @@
 
 #include <libhydrix/hmem/smem/heap.h>
 
+uint64_t TotalUsedMem = 0;
+
 typedef struct mem_block {
     uint64_t size;
     struct mem_block* next;
@@ -43,6 +45,7 @@ void* KernelAllocate(uint64_t bytes) {
     mem_heap_end = (bytes + sizeof(mem_block_t) + (uint64_t*)mem_heap_end);
 
     block->size = bytes;
+    TotalUsedMem += bytes;
     return (void*)(block + 1);
 }
 
@@ -54,6 +57,29 @@ void KernelFree(void* ptr) {
     mem_block_t* block = (mem_block_t*)ptr - 1;
     block->next = free_list;
     free_list = block;
+    TotalUsedMem -= block->size;
+}
+
+//get freelist count
+int GetFreeListCount() {
+    mem_block_t* curr = free_list;
+    int count = 0;
+    while (curr) {
+        count++;
+        curr = curr->next;
+    }
+    return count;
+}
+
+//get usedlist count
+int GetUsedListCount() {
+    mem_block_t* curr = (mem_block_t*)mem_heap_base;
+    int count = 0;
+    while (curr < (mem_block_t*)mem_heap_end) {
+        count++;
+        curr = (mem_block_t*)((uint64_t*)curr + curr->size + sizeof(mem_block_t));
+    }
+    return count;
 }
 
 void* KernelReallocate(void* ptr, uint64_t bytes) {
@@ -71,7 +97,7 @@ void* KernelReallocate(void* ptr, uint64_t bytes) {
         memcpy(newptr, ptr, old_block->size);
         KernelFree(ptr);
     }
-
+    TotalUsedMem -= old_block->size;
     return newptr;
 }
 
@@ -81,4 +107,27 @@ void* KernelCleanAllocate(uint64_t bytes)
     // Zero out the memory
     memset(ptr, 0, bytes);
     return ptr;
+}
+
+uint64_t GetTotalUsedMem() {
+    return TotalUsedMem;
+}
+
+/// @brief Find blocks that havent been freed and free them
+void CleanHeap() {
+    mem_block_t* prev = NULL;
+    mem_block_t* curr = free_list;
+
+    while (curr) {
+        if ((uint64_t)curr + curr->size == (uint64_t)mem_heap_end) {
+            if (prev) {
+                prev->next = curr->next;
+            } else {
+                free_list = curr->next;
+            }
+            mem_heap_end = curr;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
 }

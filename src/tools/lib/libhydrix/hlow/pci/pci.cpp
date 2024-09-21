@@ -69,13 +69,15 @@ void pci_probe()
                     uint16_t vendor = getVendorID(bus, slot, function);
                     if(vendor == 0xffff) continue;
                     uint16_t device = getDeviceID(bus, slot, function);
-                    con_pci->WriteLineS(StringConcatenate(StringConcatenate("vendor: 0x", ToHexNumberString(vendor)),StringConcatenate(" device: 0x", ToHexNumberString(device))));
+                    //con_pci->WriteLineS(StringConcatenate(StringConcatenate("vendor: 0x", ToHexNumberString(vendor)),StringConcatenate(" device: 0x", ToHexNumberString(device))));
                     pci_device *pdev = (pci_device *)KernelAllocate(sizeof(pci_device));
                     pdev->vendor = vendor;
                     pdev->device = device;
                     pdev->func = function;
                     pdev->driver = 0;
                     add_pci_device(pdev);
+                    //free
+                    KernelFree(pdev);
             }
         }
     }
@@ -98,6 +100,9 @@ void InitializePCI()
 	pci_devices = (pci_device **)KernelAllocate(32 * sizeof(pci_device));
 	pci_drivers = (pci_driver **)KernelAllocate(32 * sizeof(pci_driver));
 	pci_probe();
+    //free
+    KernelFree(pci_devices);
+    KernelFree(pci_drivers);
     return;
 }
 

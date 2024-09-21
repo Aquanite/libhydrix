@@ -22,7 +22,14 @@ class Graphics {
         uint64_t Width;
         uint64_t Height;
         uint64_t Bpp;
-        /// @brief The framebuffer (LIMINE Framebuffer)
+        uint64_t RedMaskShift;
+        uint64_t GreenMaskShift;
+        uint64_t BlueMaskShift;
+        uint64_t RedMaskSize;
+        uint64_t GreenMaskSize;
+        uint64_t BlueMaskSize;
+        
+        /// @brief The framebuffer
         uint32_t* FrameBuffer;
         /// @brief The buffer to swap with
         uint32_t* SwapBuffer;
@@ -30,7 +37,7 @@ class Graphics {
         Graphics();
         /// @brief Initialize the Graphics class
         /// @param fb The framebuffer
-        void Init(uint32_t* fb, uint64_t width, uint64_t height, uint64_t pitch, uint64_t bpp);
+        void Init(uint32_t* fb, uint64_t width, uint64_t height, uint64_t Pitch, uint64_t bpp, uint64_t red_mask_shift, uint64_t green_mask_shift, uint64_t blue_mask_shift, uint64_t red_mask_size, uint64_t green_mask_size, uint64_t blue_mask_size);
         /// @brief Draw a pixel on the screen
         /// @param x The horizontal position
         /// @param y The vertical position
@@ -53,12 +60,39 @@ class Graphics {
         /// @param y The vertical position
         /// @param color The color
         void DrawString(char* str, int x, int y, int color);
+        /// @brief Draw a string on the screen
+        /// @param str The string
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param color The color
+        void DrawString(StringObj str, int x, int y, int color);
+        /// @brief Draw a string on the screen with scaling
+        /// @param str The string
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param scaling The scaling (1 is normal)
+        /// @param color The color
+        void DrawString(char *str, int x, int y, uint8_t scaling, int color);
+        /// @brief Draw a string on the screen with scaling
+        /// @param str The string
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param scaling The scaling (1 is normal)
+        /// @param color The color
+        void DrawString(StringObj str, int x, int y, uint8_t scaling, int color);
         /// @brief Draw a char on the screen
         /// @param c The char
         /// @param x The horizontal position
         /// @param y The vertical position
         /// @param color The color
         void DrawChar(char c, int x, int y, int color);
+        /// @brief Draw a char on the screen with scaling
+        /// @param c The char
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param scaling The scaling (1 is normal)
+        /// @param color The color
+        void DrawChar(char c, int x, int y, uint8_t scaling, int color);
         /// @brief Draw a line on the screen
         /// @param x1 The horizontal position of the first point
         /// @param y1 The vertical position of the first point
@@ -95,6 +129,8 @@ class Graphics {
         /// @brief Swap the buffer
         /// @warning MUST BE CALLED AFTER DRAWING FOR ANYTHING TO BE VISIBLE
         void Display();
+        /// @brief Display the buffer without waiting for the next frame
+        void DisplayNonSynced();
         /// @brief Draws an image to the screen (bitmap)
         /// @param x The horizontal position
         /// @param y The vertical position
@@ -103,8 +139,8 @@ class Graphics {
         /// @brief Draws a pixel to the screen with transparency
         /// @param x The horizontal position
         /// @param y The vertical position
-        /// @param color The color
-        void DrawAlphaPixel(int x, int y, long color);
+        /// @param Color The color
+        void DrawAlphaPixel(int x, int y, uint32_t Color);
         /// @brief Draws an image to the screen (bitmap) with transparency
         /// @param x The horizontal position
         /// @param y The vertical position
@@ -136,4 +172,47 @@ class Graphics {
         /// @param font_char_width The width of a font character (How close the characters are to each other)
         /// @param font_sheet_width The width of the font sheet (Example: 256 for a 16x16 font sheet)
         void LoadFont(long* font, int glyph_width, int glyph_height, int font_char_width, int font_sheet_width);
+        /// @brief Screenshots part of the screen
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param w The width
+        /// @param h The height
+        /// @return The screenshot
+        int* ClipFromScreen(int x, int y, int w, int h);
+        /// @brief Screenshots part of the screen
+        /// @param x The horizontal position
+        /// @param y The vertical position
+        /// @param Bimage The bitmap image
+        void ClipFromScreen(int x, int y, BMPI* Bimage);
+        /// @brief Draw a Bézier curve
+        /// @param x0 The horizontal position of the first point
+        /// @param y0 The vertical position of the first point
+        /// @param x1 The horizontal position of the second point
+        /// @param y1 The vertical position of the second point
+        /// @param x2 The horizontal position of the third point
+        /// @param y2 The vertical position of the third point
+        /// @param color The color
+        void DrawBézierCurve(float x0, float y0, float x1, float y1, float x2, float y2, int color);
+        /// @brief Draw a Cubic curve
+        /// @param x0 The horizontal position of the first point
+        /// @param y0 The vertical position of the first point
+        /// @param x1 The horizontal position of the second point
+        /// @param y1 The vertical position of the second point
+        /// @param x2 The horizontal position of the third point
+        /// @param y2 The vertical position of the third point
+        /// @param x3 The horizontal position of the fourth point
+        /// @param y3 The vertical position of the fourth point
+        /// @param color The color
+        void DrawCubicCurve(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, int color);
+        /// @brief Gets a pixel from the screen
+        /// @param x Horizontal position
+        /// @param y Vertical position
+        /// @return The pixel color
+        int GetPixel(int x, int y);
+        /// @brief Sets the refresh rate
+        /// @param hz The refresh rate
+        void SetHz(uint64_t hz);
+        /// @brief Prints debug information
+        /// @param Debug The debug information
+        void PrintDebug(StringObj Debug);
 };

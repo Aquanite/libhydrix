@@ -1,4 +1,6 @@
 #pragma once
+#include <stdint.h>
+#include <stddef.h>
 void InitializeTime();
 int TimeGetSeconds();
 int TimeGetMinutes();
@@ -8,7 +10,7 @@ int TimeGetMonth();
 int TimeGetYear();
 int TimeGetCentury();
 int TimeGetDayOfTheWeek();
-
+uint64_t GetSystemTime();
 
 long long TimeSinceBootMS();
 long long TimeCurrentTime();

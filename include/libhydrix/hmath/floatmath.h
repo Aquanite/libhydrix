@@ -220,4 +220,8 @@ class MathF
     /// @param t The interpolation factor
     /// @return The interpolated value
     static float LinearInterpolation(float a, float b, float t);
+    /// @brief Swap two floating point numbers
+    /// @param a The first value
+    /// @param b The second value
+    static void Swap(float &a, float &b);
 };

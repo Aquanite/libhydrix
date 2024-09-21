@@ -16,8 +16,3 @@ int Integer::ParseInt(string str)
     }
     return Sign * result;
 }
-
-string Integer::ToString(int value)
-{
-    return ToString(value);
-}

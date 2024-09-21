@@ -112,6 +112,54 @@ int TimeGetDayOfTheWeek()
 	return day;
 }
 
+uint64_t GetSystemTime()
+{
+    int year = TimeGetYear();           // Get year
+    int century = TimeGetCentury();     // Get century (should return 20 or 21)
+    int month = TimeGetMonth();         // Get month (1-12)
+    int day = TimeGetDay();             // Get day (1-31)
+    int hours = TimeGetHours();         // Get hours (0-23)
+    int minutes = TimeGetMinutes();     // Get minutes (0-59)
+    int seconds = TimeGetSeconds();     // Get seconds (0-59)
+
+    // Combine century and year (e.g., 21 * 100 + 24 = 2024)
+    year += (century * 100);
+
+    // Array of days in each month for a non-leap year
+    int days_in_month[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    // Check if the current year is a leap year
+    bool is_leap_year = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+    if (is_leap_year)
+    {
+        days_in_month[1] = 29; // February has 29 days in a leap year
+    }
+
+    // Calculate total days since 1970-01-01
+    uint64_t total_days = 0;
+
+    // Add days for each past year
+    for (int y = 1970; y < year; y++)
+    {
+        bool past_leap_year = (y % 4 == 0 && (y % 100 != 0 || y % 400 == 0));
+        total_days += (past_leap_year ? 366 : 365);
+    }
+
+    // Add days for each past month of the current year
+    for (int m = 0; m < month - 1; m++)
+    {
+        total_days += days_in_month[m];
+    }
+
+    // Add days of the current month
+    total_days += day - 1;
+
+    // Calculate total seconds
+    uint64_t total_seconds = (total_days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+
+    return total_seconds;
+}
+
 long long TimeSinceBootMS()
 {
     // Returns the time from boot in seconds
@@ -174,7 +222,7 @@ Time_t TimeGetTime()
 	// Add timezone offset
 	time.Hours += CurrentSelectedTimezone;
 
-	// If the timezone is India (Mumbai), add 30 Minimumutes
+	// If the timezone is India (Mumbai), add 30 Minutes
 	if (CurrentSelectedTimezone == Mumbai)
 	{
 		time.Minutes += 30;

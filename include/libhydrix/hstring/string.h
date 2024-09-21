@@ -1,13 +1,15 @@
 #pragma once
 #include <stdint.h>
 #include <stddef.h>
+#include <libhydrix/hmem/smem/heap.h>
+
 //include va list
 #include <stdarg.h>
 
-/// @brief String
+
 typedef char* string;
-/// @brief Constant string
 typedef const char* cstring;
+
 /// @brief String length
 /// @param str The string
 /// @return The length
@@ -16,12 +18,16 @@ size_t StringLength(const char* str);
 /// @param dest The destination
 /// @param src The source
 /// @return The new string
-char* StringConcatenate(cstring dest, cstring src);
+char* StringConcatenate(const char* dest, const char* src);
 /// @brief Compare two strings
 /// @param str1 The first string
 /// @param str2 The second string
 /// @return True if the strings are equal
-bool StringCompare(cstring str1, cstring str2);
+bool StringCompare(const char* str1, const char* str2);
+/// @brief Copy a string
+/// @param dest The destination
+/// @param src The source
+void StringCopy(char* dest, const char* src);
 /// @brief Reverse a string
 /// @param str The string
 /// @param len The length to reverse
@@ -76,3 +82,120 @@ char* ToHexNumberString(uint64_t value);
 /// @param value The integer
 /// @return The char
 char ToCharacter(int value);
+
+
+class StringObj {
+private:
+    char* str;
+    size_t len;
+
+public:
+    //Allow [] operator
+    char& operator[](size_t index) {
+        return str[index];
+    }
+    int Length() const {
+        return len;
+    }
+    // Constructors
+    explicit StringObj(const char* initialStr) {
+        len = StringLength(initialStr);
+        str = (char*)KernelAllocate(len + 1);
+        StringCopy(str, initialStr);
+    }
+
+    // Copy constructor
+    StringObj(const StringObj& other) {
+        len = other.len;
+        str = (char*)KernelAllocate(len + 1);
+        StringCopy(str, other.str);
+    }
+
+    // Move constructor
+    StringObj(StringObj&& other) : str(other.str), len(other.len) {
+        other.str = 0;
+        other.len = 0;
+    }
+
+    // Assignment operators
+    StringObj& operator=(const char* newStr) {
+        if (this->str != newStr) {
+            //free with the byte lengh
+            KernelFree(str);
+            len = StringLength(newStr);
+            str = (char*)KernelAllocate(len + 1);
+            StringCopy(str, newStr);
+        }
+        return *this;
+    }
+
+    StringObj& operator=(const StringObj& other) {
+        if (this != &other) {
+            KernelFree(str);
+            len = other.len;
+            str = (char*)KernelAllocate(len + 1);
+            StringCopy(str, other.str);
+        }
+        return *this;
+    }
+    // = then string
+    StringObj& operator=(StringObj&& other) {
+        if (this != &other) {
+            KernelFree(str);
+            len = other.len;
+            str = other.str;
+            other.str = 0;
+            other.len = 0;
+        }
+        return *this;
+    }
+
+    //equal string
+    bool operator==(const StringObj& rhs) const {
+        return StringCompare(str, rhs.str);
+    }
+
+    // Not equal string
+    bool operator!=(const StringObj& rhs) const {
+        return !(*this == rhs);
+    }
+
+    // Concatenation operators
+    StringObj operator+(const char* rhs) const {
+        char* newStr = StringConcatenate(str, rhs);
+        StringObj result(newStr);
+        KernelFree(newStr);
+        return result;
+    }
+
+    StringObj operator+(char* rhs) const {
+        return *this + (const char*)rhs;
+    }
+
+    StringObj operator+(const StringObj& rhs) const {
+        return *this + (const char*)rhs.str;
+    }
+
+    // Handling integer concatenation
+    template<typename T>
+    StringObj operator+(T rhs) const {
+        char* newStr = StringConcatenate(str, ToString(rhs));
+        StringObj result(newStr);
+        KernelFree(newStr);
+        return result;
+    }
+
+    // Type cast operators
+    explicit operator const char*() const {
+        return str;
+    }
+
+    // Destructor
+    ~StringObj() {
+        if (str) {
+            KernelFree(str);
+        }
+    }
+};
+
+
