@@ -1,4 +1,5 @@
 #include <libhydrix/hmath/floatmath.h>
+
 float MathF::Absolute(float x) {
         return x < 0 ? -x : x;
     }
@@ -179,4 +180,10 @@ float MathF::Absolute(float x) {
     }
     float MathF::LinearInterpolation(float a, float b, float t) {
         return a + t * (b - a);
+    }
+    void MathF::Swap(float &a, float &b)
+    {
+        float temp = a;
+        a = b;
+        b = temp;
     }

@@ -40,7 +40,15 @@ bool StringCompare(cstring str1, cstring str2) {
     }
     return true;
 }
-
+void StringCopy(char* dest, const char* src)
+{
+    int i = 0;
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
 void ReverseString(char *str, int len) {
     int start = 0;
     int end = len - 1;
@@ -131,15 +139,16 @@ char* sizet_to_string(size_t value) {
     return &buffer[i+1];
 }
 char* float_to_string(float value) {
+    //Get float no trailing zeros
     static char buffer[64] = {0};
     int int_part = (int)value;
     float frac_part = value - (float)int_part;
     if (frac_part < 0) frac_part = -frac_part;
-    
+
     int i = int_to_string(int_part, buffer);
-    
+
     buffer[i++] = '.';
-    
+
     // Convert fractional part to string
     for (int j = 0; j < 6; j++) { // Adjust precision as needed
         frac_part *= 10;
@@ -147,7 +156,7 @@ char* float_to_string(float value) {
         buffer[i++] = frac_int + '0';
         frac_part -= frac_int;
     }
-    
+
     buffer[i] = '\0';
     return buffer;
 }
@@ -274,6 +283,10 @@ char* ToString(uint64_t value) {
     return u64_to_string(value);
 }
 char* ToString(float value) {
+    //check if nan, if so, return NaN
+    if (value != value) {
+        return "NaN";
+    }
     if (value == 0.0f) {
         return "0.0";
     }
@@ -303,3 +316,4 @@ char* ToHexNumberString(uint64_t value) {
 char ToCharacter(int value) {
     return int_to_char(value);
 }
+

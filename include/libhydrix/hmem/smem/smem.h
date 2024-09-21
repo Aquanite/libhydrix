@@ -34,3 +34,8 @@ int memcmp(const void *s1, const void *s2, size_t n);
 }
 #endif
 uint64_t RetrieveTotalMemory(limine_memmap_response *memmap);
+struct MemoryBlock {
+    MemoryBlock* next;
+    uint64_t size;
+    bool is_free;
+};

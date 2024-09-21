@@ -72,11 +72,23 @@ void set_mouse_rate(uint8_t rate)
 
 void enable_mouse_z()
 {
-    set_mouse_rate(200);
-    set_mouse_rate(100);
-    set_mouse_rate(80);
+    //enable scroll wheel
+
+    mouse_PITWait(1);
+    PortIO::OutByte(MOUSE_COMMAND, 0xD4);
+    mouse_PITWait(1);
+    PortIO::OutByte(MOUSE_PORT, 0xF2);
+    mouse_PITWait(1);
+    PortIO::OutByte(MOUSE_PORT, 0x00);
+    mouse_PITWait(1);
     MouseID = get_mouse_id();
-    Debugger::DebugPrint(StringConcatenate("Mouse ID: ", ToString(MouseID)));
+    set_mouse_rate(200);
+    mouse_PITWait(1);
+    PortIO::OutByte(MOUSE_COMMAND, 0xD4);
+    mouse_PITWait(1);
+    PortIO::OutByte(MOUSE_PORT, 0xF4);
+    mouse_PITWait(1);
+    mouse_read(); // Acknowledge
 }
 
 void resetmouse()
@@ -103,8 +115,8 @@ static void mouse_enable()
     PortIO::OutByte(MOUSE_PORT, status);
     mouse_write(0xF6);
     mouse_read(); // Acknowledge
-    
-    mouse_write(0xF4);
+
+    mouse_write(0xF4); // Enable the mouse
     mouse_read(); // Acknowledge
 }
 
@@ -153,6 +165,7 @@ int32_t GetMouseYPos()
 
 void MouseHandler(registers_t *r)
 {
+
     static int8_t x = 0;
     static int8_t y = 0;
     switch (mouse_cycle)

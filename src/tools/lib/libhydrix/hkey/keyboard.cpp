@@ -10,9 +10,9 @@ char scancodemap[58] = {
 char upperscancode[58] = {
     0, 0, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 0, 0, 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 0, 0, 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0, '|', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0, '*', 0, ' '
 };
-bool GetKeyDown(char scancode)
+bool GetKeyDown(KeyCode scancode)
 {
-    return PortIO::InByte(0x60) == scancode;
+    return PortIO::InByte(0x60) == (char)scancode;
 }
 inline uint8_t getScancode()
 {
@@ -36,10 +36,10 @@ void KeyboardHandler(registers_t *r)
         return;
     }
     uint8_t scancode = getScancode();
-    if (scancode < 58 && GetKeyDown(scancode))
+    if (scancode < 58 && GetKeyDown((KeyCode)scancode))
     {
         //if shift is pressed, capitalize, if backspace, send \b to console
-        if (GetKeyDown(0x2A) || GetKeyDown(0x36))
+        if (GetKeyDown((KeyCode)0x2A) || GetKeyDown((KeyCode)0x36))
         {
             if (!Keyboard_Console_IDT->allow_typing) return;
             Keyboard_Console_IDT->PutCharS(upperscancode[scancode]);
@@ -56,7 +56,7 @@ void KeyboardHandler(registers_t *r)
         }
     }
     //enter
-    else if (scancode == 0x1C && GetKeyDown(scancode))
+    else if (scancode == 0x1C && GetKeyDown((KeyCode)scancode))
     {
         if (!Keyboard_Console_IDT->allow_typing) return;
         Keyboard_Console_IDT->PutCharS('\n');
